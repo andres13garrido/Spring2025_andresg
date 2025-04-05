@@ -1,4 +1,5 @@
 ﻿using System;
+using Spring2025_andresg.Models;
 
 namespace Spring2025_andresg
 {
@@ -6,6 +7,8 @@ namespace Spring2025_andresg
     {
         static void Main(string[] args)
         {
+
+            var lastKey = 1;
             Console.WriteLine("Welcome to My Store!");
 
             Console.WriteLine("C. Create new inventory item");
@@ -15,7 +18,7 @@ namespace Spring2025_andresg
             Console.WriteLine("Q. Quit");
 
 
-            List<string> list = new List<string>();
+            List<Product?> list = new List<Product?>();
 
 
             char choice;
@@ -28,22 +31,34 @@ namespace Spring2025_andresg
                 {
                     case 'C':
                     case 'c':
-                        var newProduct = Console.ReadLine() ?? "UNKNOWN";
-
-                        // add to a list
-                        list.Add(newProduct);
+                        list.Add(new Product
+                        {
+                            Id = lastKey++,
+                            Name = Console.ReadLine()
+                        });
                         break;
                     case 'R':
                     case 'r':
-                        // print out all the products in our list
+                        list.ForEach(Console.WriteLine);
                         break;
                     case 'U':
                     case 'u':
                         // select one product and replace it with a new product
+                        Console.WriteLine("Enter which product you would like to update:");
+                        int selection = int.Parse(Console.ReadLine() ?? "-1");
+                        var selectedProduct = list.FirstOrDefault(p => p.Id == selection);
+                        if (selectedProduct != null)
+                        {
+                            selectedProduct.Name = Console.ReadLine() ?? "ERROR";
+                        } 
                         break;
                     case 'D':
                     case 'd':
                         // select one product and remove it from the list
+                        Console.WriteLine("Enter which product you would like to update:");
+                        selection = int.Parse(Console.ReadLine() ?? "-1");
+                        selectedProduct = list.FirstOrDefault(p => p.Id == selection);
+                        list.Remove(selectedProduct);
                         break;
                     case 'Q':
                     case 'q':
@@ -69,4 +84,5 @@ namespace Spring2025_andresg
 
 
 //vid1 done
-//vid2 minute: 
+//vid2 done
+//vid3 minute 0:00
