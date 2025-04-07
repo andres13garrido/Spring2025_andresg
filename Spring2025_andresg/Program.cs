@@ -9,7 +9,6 @@ namespace Spring2025_andresg
         static void Main(string[] args)
         {
 
-            var lastKey = 1;
             Console.WriteLine("Welcome to My Store!");
 
             Console.WriteLine("C. Create new inventory item");
@@ -32,9 +31,8 @@ namespace Spring2025_andresg
                 {
                     case 'C':
                     case 'c':
-                       ProductServiceProxy.Current.Products.Add(new Product()
+                       ProductServiceProxy.Current.AddOrUpdate(new Product()
                        {
-                           
                            Name = Console.ReadLine()
                        });
                         break;
@@ -48,10 +46,11 @@ namespace Spring2025_andresg
                         Console.WriteLine("Enter which product you would like to update:");
                         int selection = int.Parse(Console.ReadLine() ?? "-1");
                         var selectedProduct = list.FirstOrDefault(p => p.Id == selection);
+
                         if (selectedProduct != null)
                         {
                             selectedProduct.Name = Console.ReadLine() ?? "ERROR";
-
+                            ProductServiceProxy.Current.AddOrUpdate(selectedProduct);
                         } 
 
                         break;
@@ -60,8 +59,7 @@ namespace Spring2025_andresg
                         // select one product and remove it from the list
                         Console.WriteLine("Enter which product you would like to update:");
                         selection = int.Parse(Console.ReadLine() ?? "-1");
-                        selectedProduct = list.FirstOrDefault(p => p.Id == selection);
-                        list.Remove(selectedProduct);
+                        ProductServiceProxy.Current.Delete(selection);
                         break;
                     case 'Q':
                     case 'q':
@@ -89,4 +87,5 @@ namespace Spring2025_andresg
 //vid1 done
 //vid2 done
 //vid3 done
-//vid4 0:00
+//vid4 done
+//vid5 start
