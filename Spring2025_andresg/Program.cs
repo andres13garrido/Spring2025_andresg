@@ -1,4 +1,5 @@
 ﻿using System;
+using Library.eCommerce.Services;
 using Spring2025_andresg.Models;
 
 namespace Spring2025_andresg
@@ -18,7 +19,7 @@ namespace Spring2025_andresg
             Console.WriteLine("Q. Quit");
 
 
-            List<Product?> list = new List<Product?>();
+            List<Product?> list = ProductServiceProxy.Current.Products;
 
 
             char choice;
@@ -31,11 +32,11 @@ namespace Spring2025_andresg
                 {
                     case 'C':
                     case 'c':
-                        list.Add(new Product
-                        {
-                            Id = lastKey++,
-                            Name = Console.ReadLine()
-                        });
+                       ProductServiceProxy.Current.Products.Add(new Product()
+                       {
+                           
+                           Name = Console.ReadLine()
+                       });
                         break;
                     case 'R':
                     case 'r':
@@ -50,7 +51,9 @@ namespace Spring2025_andresg
                         if (selectedProduct != null)
                         {
                             selectedProduct.Name = Console.ReadLine() ?? "ERROR";
+
                         } 
+
                         break;
                     case 'D':
                     case 'd':
@@ -85,4 +88,5 @@ namespace Spring2025_andresg
 
 //vid1 done
 //vid2 done
-//vid3 minute 0:00
+//vid3 done
+//vid4 0:00
