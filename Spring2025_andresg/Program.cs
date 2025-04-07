@@ -45,7 +45,7 @@ namespace Spring2025_andresg
                         // select one product and replace it with a new product
                         Console.WriteLine("Enter which product you would like to update:");
                         int selection = int.Parse(Console.ReadLine() ?? "-1");
-                        var selectedProduct = list.FirstOrDefault(p => p.Id == selection);
+                        var selectedProduct = list.FirstOrDefault(p => p?.Id == selection);
 
                         if (selectedProduct != null)
                         {
@@ -88,4 +88,5 @@ namespace Spring2025_andresg
 //vid2 done
 //vid3 done
 //vid4 done
-//vid5 start
+//vid5 done
+//vid6 start 
