@@ -14,16 +14,21 @@ namespace Spring2025_andresg.Models
 
         public string? Name { get; set; } // auto property
 
+        public decimal Price { get; set; } // auto property
+
+        public int Quantity { get; set; } // auto property
         public string? Display
         {
             get
             {
-                return $"{Id}. {Name}";
+                return $"{Id}. {Name} - Price: { Price: C} - Qty: { Quantity}";
             }
         }
         public Product()
         {
             Name = string.Empty;
+            Price = 0;
+            Quantity = 0;
         }
 
         public override string ToString()

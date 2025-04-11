@@ -6,6 +6,7 @@ namespace Spring2025_andresg
 {
     internal class Program
     {
+        static ShoppingCart cart = ShoppingCart.Current;
         static void Main(string[] args)
         {
 
@@ -15,26 +16,46 @@ namespace Spring2025_andresg
             Console.WriteLine("R. Read all inventory item");
             Console.WriteLine("U. Update inventory item");
             Console.WriteLine("D. Delete inventory item");
-            Console.WriteLine("Q. Quit");
+            Console.WriteLine();
+            Console.WriteLine("Shopping Cart");
+            Console.WriteLine("M. Manage Shopping Cart");
+            Console.WriteLine();
+            Console.WriteLine("Q. Checkout and Quit");
 
 
             List<Product?> list = ProductServiceProxy.Current.Products;
 
 
-            char choice;
+            char choice = '\0';
             do
             {
+                Console.WriteLine("Enter option:");
                 string? input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
+                {
+                    Console.WriteLine("Invalid input. Please try again.");
+                    continue;
+                }
                 choice = input[0];
 
                 switch (choice)
                 {
                     case 'C':
                     case 'c':
-                       ProductServiceProxy.Current.AddOrUpdate(new Product()
-                       {
-                           Name = Console.ReadLine()
-                       });
+
+                        // create a new product
+                        Console.WriteLine("Enter product name:");
+                        string name = Console.ReadLine() ?? "ERROR";
+                        Console.WriteLine("Enter product price:");
+                        decimal price = decimal.Parse(Console.ReadLine() ?? "0");
+                        Console.WriteLine("Enter product quantity:");
+                        int quantity = int.Parse(Console.ReadLine() ?? "0");
+                        ProductServiceProxy.Current.AddOrUpdate(new Product()
+                        {
+                            Name = name,
+                            Price = price,
+                            Quantity = quantity
+                        });
                         break;
                     case 'R':
                     case 'r':
@@ -51,7 +72,7 @@ namespace Spring2025_andresg
                         {
                             selectedProduct.Name = Console.ReadLine() ?? "ERROR";
                             ProductServiceProxy.Current.AddOrUpdate(selectedProduct);
-                        } 
+                        }
 
                         break;
                     case 'D':
@@ -61,27 +82,27 @@ namespace Spring2025_andresg
                         selection = int.Parse(Console.ReadLine() ?? "-1");
                         ProductServiceProxy.Current.Delete(selection);
                         break;
+                    case 'M':
+                    case 'm':
+                        // manage shopping cart
+                        ProductServiceProxy.Current.ManageShoppingCart();
+                        break;
                     case 'Q':
                     case 'q':
+                        // checkout and quit
+                        ProductServiceProxy.Current.Checkout();
                         break;
                     default:
                         Console.WriteLine("Invalid choice");
                         break;
                 }
 
-            } while (choice != 'Q' && choice != 'q'); 
+            } while (choice != 'Q' && choice != 'q');
 
             Console.ReadLine();
         }
-    
-    
-    
     }
-
-
-
 }
-
 
 
 //vid1 done
