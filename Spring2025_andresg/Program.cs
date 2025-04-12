@@ -6,7 +6,7 @@ namespace Spring2025_andresg
 {
     internal class Program
     {
-        static ShoppingCart cart = ShoppingCart.Current;
+        
         static void Main(string[] args)
         {
 
@@ -17,10 +17,7 @@ namespace Spring2025_andresg
             Console.WriteLine("U. Update inventory item");
             Console.WriteLine("D. Delete inventory item");
             Console.WriteLine();
-            Console.WriteLine("Shopping Cart");
-            Console.WriteLine("M. Manage Shopping Cart");
-            Console.WriteLine();
-            Console.WriteLine("Q. Checkout and Quit");
+           
 
 
             List<Product?> list = ProductServiceProxy.Current.Products;
@@ -82,19 +79,7 @@ namespace Spring2025_andresg
                         selection = int.Parse(Console.ReadLine() ?? "-1");
                         ProductServiceProxy.Current.Delete(selection);
                         break;
-                    case 'M':
-                    case 'm':
-                        // manage shopping cart
-                        ProductServiceProxy.Current.ManageShoppingCart();
-                        break;
-                    case 'Q':
-                    case 'q':
-                        // checkout and quit
-                        ProductServiceProxy.Current.Checkout();
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice");
-                        break;
+                   
                 }
 
             } while (choice != 'Q' && choice != 'q');
@@ -110,4 +95,5 @@ namespace Spring2025_andresg
 //vid3 done
 //vid4 done
 //vid5 done
-//vid6 11.54
+//vid6 done
+//vid 7 start
