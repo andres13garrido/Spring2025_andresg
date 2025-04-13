@@ -9,7 +9,7 @@
              VerticalOptions="Center" 
              HorizontalOptions="Center" />
         <ListView
-             ItemsSource="{Binding Path=Products}"
+             ItemsSource="{Binding Products}"
              SelectedItem="{Binding SelectedProduct}"
              >
             <ListView.ItemTemplate>
