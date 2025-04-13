@@ -11,7 +11,6 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy()
         {
-            Products = new List<Product?>();
             Products = new List<Product?>
              {
                  new Product{Id = 1, Name ="Product 1"},
