@@ -18,7 +18,7 @@ namespace Maui.eCommerce.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if(propertyName is null)
             {
@@ -28,6 +28,10 @@ namespace Maui.eCommerce.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void RefreshProductList()
+        {
+            NotifyPropertyChanged(nameof(Products));
+        }
         public ObservableCollection<Product?> Products
         {
             get

@@ -21,7 +21,7 @@ namespace Spring2025_andresg.Models
         {
             get
             {
-                return $"{Id}. {Name} - Price: { Price: C} - Qty: { Quantity}";
+                return $"{Id}. {Name} ";
             }
         }
         public Product()

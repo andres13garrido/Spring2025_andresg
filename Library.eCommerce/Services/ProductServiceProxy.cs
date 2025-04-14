@@ -78,6 +78,10 @@ namespace Library.eCommerce.Services
             return product;
         }
 
+        public Product? GetById(int id)
+        {
+            return Products.FirstOrDefault(p => p.Id == id);
+        }
     }
 
 

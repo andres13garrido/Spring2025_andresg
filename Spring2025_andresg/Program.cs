@@ -97,4 +97,6 @@ namespace Spring2025_andresg
 //vid5 done
 //vid6 done
 //vid 7 done
-//vid 8 10.44
+//vid 8 done
+//vid9 done
+//vid 10 start
