@@ -30,6 +30,11 @@ namespace Spring2025_andresg.Models
             Price = 0;
             Quantity = 0;
         }
+        public Product(Product p)
+        {
+            Name = p.Name;
+            Id = p.Id;
+        }
 
         public override string ToString()
         {
