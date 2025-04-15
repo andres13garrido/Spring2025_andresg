@@ -101,5 +101,7 @@ namespace Spring2025_andresg
 //vid9 done
 //vid 10 done
 //vid 11 done
-//vid 12 done 24
-//vid 13 start 26 VERY IMPORTANT SHALLOW/DEEP COPY
+//vid 12 done 
+//vid 13 done VERY IMPORTANT SHALLOW/DEEP COPY
+//vid14 done 3
+//vid 15 start 7

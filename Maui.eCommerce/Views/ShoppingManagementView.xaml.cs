@@ -9,7 +9,10 @@ public partial class ShoppingManagementView : ContentPage
         InitializeComponent();
         BindingContext = new ShoppingManagementViewModel();
     }
-
+    private void RemoveFromCartClicked(object sender, EventArgs e)
+    {
+        (BindingContext as ShoppingManagementViewModel).ReturnItem();
+    }
     private void AddToCartClicked(object sender, EventArgs e)
     {
         (BindingContext as ShoppingManagementViewModel).PurchaseItem();

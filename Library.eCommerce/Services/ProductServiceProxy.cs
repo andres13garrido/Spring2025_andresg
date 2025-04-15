@@ -72,6 +72,21 @@ namespace Library.eCommerce.Services
             return item;
         }
 
+        public Item? PurchaseItem(Item? item)
+        {
+            if (item?.Id <= 0 || item == null)
+            {
+                return null;
+            }
+            var itemToPurchase = GetById(item.Id);
+            if (itemToPurchase != null)
+            {
+                itemToPurchase.Quantity--;
+            }
+            
+            return itemToPurchase;
+        }
+
         public Item? Delete(int id)
         {
             if (id == 0)
