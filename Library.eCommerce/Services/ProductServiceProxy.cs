@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
 using Spring2025_andresg.Models;
 
@@ -14,9 +15,9 @@ namespace Library.eCommerce.Services
         {
             Products = new List<Item?>
              {
-                 new Item{ Product = new Product{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1 },
-                 new Item{ Product = new Product{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2 },
-                 new Item{ Product = new Product{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3 }
+                 new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1 },
+                 new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2 },
+                 new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3 }
              };
         }
 

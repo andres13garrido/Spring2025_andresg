@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Library.eCommerce.DTO;
+using Spring2025_andresg.Models;
 
-namespace Spring2025_andresg.Models
+namespace Library.eCommerce.DTO
 {
-    public class Product
+    public class ProductDTO
     {
-
         public int Id { get; set; } // auto property
 
         public string? Name { get; set; } // auto property
@@ -23,17 +21,16 @@ namespace Spring2025_andresg.Models
             }
         }
 
-        public string LegacyProperty1 { get; set; }
-        public string LegacyProperty2 { get; set; }
-        public string LegacyProperty3 { get; set; }
-        public string LegacyProperty4 { get; set; }
-        public string LegacyProperty5 { get; set; }
-
-        public Product()
+        public ProductDTO()
         {
             Name = string.Empty;
         }
-        public Product(Product p)
+        public ProductDTO(Product p)
+        {
+            Name = p.Name;
+            Id = p.Id;
+        }
+        public ProductDTO(ProductDTO p)
         {
             Name = p.Name;
             Id = p.Id;
@@ -42,13 +39,6 @@ namespace Spring2025_andresg.Models
         public override string ToString()
         {
             return Display ?? string.Empty;
-        }
-
-        public Product(ProductDTO p)
-        {
-            Name = p.Name;
-            Id = p.Id;
-
         }
     }
 }
