@@ -1,6 +1,7 @@
 using Api.eCommerce.EC;
 using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
+using Library.eCommerce.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Spring2025_andresg.Models;
 
@@ -43,6 +44,12 @@ namespace Api.eCommerce.Controllers
 
             var newItem = new InventoryEC().AddOrUpdate(item);
             return item;
+        }
+
+        [HttpPost("Search")]
+        public IEnumerable<Item> Search([FromBody] QueryRequest query)
+        {
+            return new InventoryEC().Get(query.Query);
         }
     }
 }
