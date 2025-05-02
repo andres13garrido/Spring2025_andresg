@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
+using Library.eCommerce.Utilities;
+using Newtonsoft.Json;
 using Spring2025_andresg.Models;
 
 namespace Library.eCommerce.Services
@@ -13,26 +15,16 @@ namespace Library.eCommerce.Services
     {
         private ProductServiceProxy()
         {
-            Products = new List<Item?>
-             {
-                 new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1 },
-                 new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2 },
-                 new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3 }
-             };
+            var productPayLoad = new WebRequestHandler().Get("/Inventory").Result;
+            Products = JsonConvert.DeserializeObject<List<Item>>(productPayLoad) ?? new List<Item?>();
+            //Products = new List<Item?>
+            // {
+            //     new Item{ Product = new ProductDTO{Id = 1, Name ="Product 1"}, Id = 1, Quantity = 1 },
+            //     new Item{ Product = new ProductDTO{Id = 2, Name ="Product 2"}, Id = 2 , Quantity = 2 },
+            //     new Item{ Product = new ProductDTO{Id = 3, Name ="Product 3"}, Id=3 , Quantity = 3 }
+            // };
         }
 
-        private int LastKey
-        {
-            get
-            {
-                if (!Products.Any())
-                {
-                    return 0;
-                }
-
-                return Products.Select(p => p?.Id ?? 0).Max();
-            }
-        }
 
         private static ProductServiceProxy? instance;
         private static object instanceLock = new object();
@@ -57,10 +49,15 @@ namespace Library.eCommerce.Services
 
         public Item AddOrUpdate(Item item)
         {
+            //call web service
+            var response = new WebRequestHandler().Post("/Inventory", item).Result;
+            var newItem = JsonConvert.DeserializeObject<Item>(response);
+            if (newItem == null)
+            {
+                return item;
+            }
             if (item.Id == 0)
             {
-                item.Id = LastKey + 1;
-                item.Product.Id = item.Id;
                 Products.Add(item);
             }
             else
@@ -68,7 +65,7 @@ namespace Library.eCommerce.Services
                 var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
                 var index = Products.IndexOf(existingItem);
                 Products.RemoveAt(index);
-                Products.Insert(index, new Item(item));
+                Products.Insert(index, new Item(newItem));
             }
             return item;
         }
@@ -95,10 +92,11 @@ namespace Library.eCommerce.Services
                 return null;
             }
 
+            var result = new WebRequestHandler().Delete($"/Inventory/{id}").Result;
             Item? product = Products.FirstOrDefault(p => p.Id == id);
             Products.Remove(product);
 
-            return product;
+            return JsonConvert.DeserializeObject<Item>(result);
         }
 
         public Item? GetById(int id)
