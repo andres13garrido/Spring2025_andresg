@@ -1,47 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Library.eCommerce.Models;
 using Library.eCommerce.Services;
-using Spring2025_andresg.Models;
 
 namespace Maui.eCommerce.ViewModels
 {
-    public class ProductViewModel
+    public class ProductViewModel : INotifyPropertyChanged
     {
-        private Item? cachedModel { get; set; }
+        private Item? cachedModel;
+        public Item? Model { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void NotifyPropertyChanged([CallerMemberName] string prop = "")
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
         public string? Name
         {
-            get
-            {
-                return Model?.Product?.Name ?? string.Empty;
-            }
+            get => Model?.Product?.Name;
             set
             {
-                if (Model != null && Model.Product?.Name != value)
+                if (Model != null && Model.Product!.Name != value)
                 {
                     Model.Product.Name = value;
+                    NotifyPropertyChanged();
                 }
             }
         }
+
         public int? Quantity
         {
-            get
-            {
-                return Model?.Quantity;
-            }
-
+            get => Model?.Quantity;
             set
             {
                 if (Model != null && Model.Quantity != value)
                 {
                     Model.Quantity = value;
+                    NotifyPropertyChanged();
                 }
             }
         }
-        public Item? Model { get; set; }
+
+        // ← NEW:
+        public decimal Price
+        {
+            get => Model?.Price ?? 0m;
+            set
+            {
+                if (Model != null && Model.Price != value)
+                {
+                    Model.Price = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public void AddOrUpdate()
         {
@@ -50,7 +61,8 @@ namespace Maui.eCommerce.ViewModels
 
         public void Undo()
         {
-            ProductServiceProxy.Current.AddOrUpdate(cachedModel);
+            if (cachedModel != null)
+                ProductServiceProxy.Current.AddOrUpdate(cachedModel);
         }
 
         public ProductViewModel()
@@ -58,14 +70,11 @@ namespace Maui.eCommerce.ViewModels
             Model = new Item();
             cachedModel = null;
         }
-
         public ProductViewModel(Item? model)
         {
             Model = model;
             if (model != null)
-            {
                 cachedModel = new Item(model);
-            }
         }
     }
 }

@@ -56,28 +56,55 @@ namespace Library.eCommerce.Services
             Products = JsonConvert.DeserializeObject<List<Item?>>(response) ?? new List<Item?>();
             return Products;
         }
+        //public Item AddOrUpdate(Item item)
+        //{
+        //    //call web service
+        //    var response = new WebRequestHandler().Post("/Inventory", item).Result;
+        //    var newItem = JsonConvert.DeserializeObject<Item>(response);
+        //    if (newItem == null)
+        //    {
+        //        return item;
+        //    }
+        //    if (item.Id == 0)
+        //    {
+        //        Products.Add(item);
+        //    }
+        //    else
+        //    {
+        //        var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
+        //        var index = Products.IndexOf(existingItem);
+        //        Products.RemoveAt(index);
+        //        Products.Insert(index, new Item(newItem));
+        //    }
+        //    return item;
+        //}
+
         public Item AddOrUpdate(Item item)
         {
-            //call web service
-            var response = new WebRequestHandler().Post("/Inventory", item).Result;
-            var newItem = JsonConvert.DeserializeObject<Item>(response);
-            if (newItem == null)
-            {
-                return item;
-            }
+            var response = new WebRequestHandler()
+                               .Post("/Inventory", item)
+                               .Result;
+
+            var newItem = JsonConvert
+                            .DeserializeObject<Item>(response)
+                        ?? throw new Exception("Invalid server response");
+
+            // ---- 1) For brand-new items, add the server-returned instance to your list: 
             if (item.Id == 0)
             {
-                Products.Add(item);
+                Products.Add(newItem);
+                return newItem;
             }
+            // ---- 2) For updates, replace the old entry with the new one:
             else
             {
-                var existingItem = Products.FirstOrDefault(p => p.Id == item.Id);
-                var index = Products.IndexOf(existingItem);
-                Products.RemoveAt(index);
-                Products.Insert(index, new Item(newItem));
+                var old = Products.First(p => p?.Id == item.Id);
+                var idx = Products.IndexOf(old);
+                Products[idx] = newItem;
+                return newItem;
             }
-            return item;
         }
+
 
         public Item? PurchaseItem(Item? item)
         {
@@ -111,6 +138,14 @@ namespace Library.eCommerce.Services
         public Item? GetById(int id)
         {
             return Products.FirstOrDefault(p => p.Id == id);
+        }
+
+        public async Task RefreshInventory()
+        {
+            var json = await new WebRequestHandler().Get("/Inventory");
+            Products = JsonConvert
+                          .DeserializeObject<List<Item?>>(json)
+                      ?? new List<Item?>();
         }
     }
 

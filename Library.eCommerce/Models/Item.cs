@@ -16,9 +16,11 @@ namespace Library.eCommerce.Models
         public ProductDTO Product { get; set; }
         public int? Quantity { get; set; }
 
+        public decimal Price {get; set;}
+
         public override string ToString()
         {
-            return $"{Product} Quantity:{Quantity}";
+            return $"{Product} Quantity:{Quantity} Price: ${Price}";
         }
 
 
@@ -26,7 +28,7 @@ namespace Library.eCommerce.Models
         {
             get
             {
-                return $"{Product?.Display ?? string.Empty} Quantity: {Quantity}";
+                return $"{Id}. {Product?.Display ?? string.Empty} Quantity: {Quantity} Price: ${Price} ";
             }
         }
 
@@ -34,6 +36,7 @@ namespace Library.eCommerce.Models
         {
             Product = new ProductDTO();
             Quantity = 0;
+            Price = 0;
 
         }
         public Item(Item i)
@@ -41,10 +44,16 @@ namespace Library.eCommerce.Models
             Product = new ProductDTO(i.Product);
             Quantity = i.Quantity;
             Id = i.Id;
+            Price = i.Price;
 
         }
 
-
+        public Item(ProductDTO productDTO)
+        {
+            Product = productDTO;
+            Quantity = 0;
+            Price = productDTO.Price;
+        }
 
     }
 

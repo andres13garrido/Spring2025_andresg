@@ -13,6 +13,8 @@ namespace Library.eCommerce.DTO
 
         public string? Name { get; set; } // auto property
 
+        public decimal Price { get; set; } // auto property
+
         public string? Display
         {
             get
@@ -29,11 +31,13 @@ namespace Library.eCommerce.DTO
         {
             Name = p.Name;
             Id = p.Id;
+            Price = p.Price;
         }
         public ProductDTO(ProductDTO p)
         {
             Name = p.Name;
             Id = p.Id;
+            Price = p.Price;
         }
 
         public override string ToString()

@@ -1,4 +1,4 @@
-using Api.eCommerce.EC;
+﻿using Api.eCommerce.EC;
 using Library.eCommerce.DTO;
 using Library.eCommerce.Models;
 using Library.eCommerce.Utilities;
@@ -39,12 +39,12 @@ namespace Api.eCommerce.Controllers
         }
 
         [HttpPost]
-        public Item? AddOrUpdate([FromBody] Item item)
+        public Item AddOrUpdate([FromBody] Item item)
         {
-
-            var newItem = new InventoryEC().AddOrUpdate(item);
-            return item;
+            var saved = new InventoryEC().AddOrUpdate(item);
+            return saved;   // ← now returns the file-backed object
         }
+
 
         [HttpPost("Search")]
         public IEnumerable<Item> Search([FromBody] QueryRequest query)

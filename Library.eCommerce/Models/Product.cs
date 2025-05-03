@@ -15,19 +15,16 @@ namespace Spring2025_andresg.Models
 
         public string? Name { get; set; } // auto property
 
+        public decimal Price { get; set; } // auto property
+
         public string? Display
         {
             get
             {
-                return $"{Id}. {Name} ";
+                return $"{Id}. {Name} - {Price}";
             }
         }
 
-        public string LegacyProperty1 { get; set; }
-        public string LegacyProperty2 { get; set; }
-        public string LegacyProperty3 { get; set; }
-        public string LegacyProperty4 { get; set; }
-        public string LegacyProperty5 { get; set; }
 
         public Product()
         {
@@ -37,6 +34,7 @@ namespace Spring2025_andresg.Models
         {
             Name = p.Name;
             Id = p.Id;
+            Price = p.Price;
         }
 
         public override string ToString()
@@ -48,7 +46,7 @@ namespace Spring2025_andresg.Models
         {
             Name = p.Name;
             Id = p.Id;
-
+            Price = p.Price;
         }
     }
 }

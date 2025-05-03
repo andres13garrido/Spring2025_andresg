@@ -17,29 +17,18 @@ namespace Api.eCommerce.EC
             return FakeDatabase.Search(query).Take(100) ?? new List<Item>();
         }
 
-        //public Item? Delete(int id)
-        //{
-        //    var itemToDelete = Filebase.Current.Inventory.FirstOrDefault(i => i?.Id == id);
-        //    if (itemToDelete != null)
-        //    {
-        //        //Filebase.Current.Delete(itemToDelete);
-        //    }
-
-        //    return itemToDelete;
-        //}
-
         public Item? Delete(int id)
         {
-            
-            var itemToDelete = Filebase.Current.Inventory.FirstOrDefault(i => i?.Id == id);
+            var itemToDelete = Filebase.Current.Inventory
+                                 .FirstOrDefault(i => i?.Id == id);
             if (itemToDelete != null)
             {
-                
-                //Filebase.Current.Delete(itemToDelete);
+                // tell the filebase to delete the .json file
+                Filebase.Current.Delete("Products", id.ToString());
             }
-
             return itemToDelete;
         }
+
 
 
         public Item? AddOrUpdate(Item item)

@@ -52,31 +52,55 @@ namespace Api.eCommerce.Database
             }
         }
 
+        //public Item AddOrUpdate(Item item)
+        //{
+        //    //set up a new Id if one doesn't already exist
+        //    if (item.Id <= 0)
+        //    {
+        //        item.Id = LastKey + 1;
+        //    }
+
+        //    //go to the right place
+        //    string path = $"{_productRoot}\\{item.Id}.json";
+
+
+        //    //if the item has been previously persisted
+        //    if (File.Exists(path))
+        //    {
+        //        //blow it up
+        //        File.Delete(path);
+        //    }
+
+        //    //write the file
+        //    File.WriteAllText(path, JsonConvert.SerializeObject(item));
+
+        //    //return the item, which now has an id
+        //    return item;
+        //}
+
         public Item AddOrUpdate(Item item)
         {
-            //set up a new Id if one doesn't already exist
+            // assign a new Id if it was zero
             if (item.Id <= 0)
             {
                 item.Id = LastKey + 1;
             }
 
-            //go to the right place
-            string path = $"{_productRoot}\\{item.Id}.json";
-
-
-            //if the item has been previously persisted
-            if (File.Exists(path))
+            // **new**: make sure the nested DTO has the same Id
+            if (item.Product != null)
             {
-                //blow it up
-                File.Delete(path);
+                item.Product.Id = item.Id;
+                if (item.Product != null)
+                    item.Product.Price = item.Price;
             }
 
-            //write the file
+            // then serialize to disk...
+            var path = $"{_productRoot}\\{item.Id}.json";
+            if (File.Exists(path)) File.Delete(path);
             File.WriteAllText(path, JsonConvert.SerializeObject(item));
-
-            //return the item, which now has an id
             return item;
         }
+
 
         public List<Item?> Inventory
         {
@@ -103,8 +127,14 @@ namespace Api.eCommerce.Database
 
         public bool Delete(string type, string id)
         {
-            //TODO: refer to AddOrUpdate for an idea of how you can implement this.
-            return true;
+            // we only support "Products" for now, ignore `type`
+            var path = Path.Combine(_productRoot, $"{id}.json");
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+                return true;
+            }
+            return false;
         }
 
     }
