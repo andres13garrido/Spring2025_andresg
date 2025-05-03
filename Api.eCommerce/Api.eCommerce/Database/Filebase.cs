@@ -100,33 +100,11 @@ namespace Api.eCommerce.Database
         }
 
 
-      
-            public bool Delete(string type, string id)
+
+        public bool Delete(string type, string id)
         {
-            // determine which folder to delete from
-            string rootPath;
-            switch (type.ToLowerInvariant())
-            {
-                case "product":
-                    rootPath = _productRoot;
-                    break;
-                // add more cases here if you have other types, e.g. "category", "order", etc.
-                default:
-                    throw new ArgumentException($"Unknown delete type: {type}", nameof(type));
-            }
-
-            // build the file path
-            var fileName = $"{id}.json";
-            var path = Path.Combine(rootPath, fileName);
-
-            // if the file exists, delete it and return true; otherwise return false
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-                return true;
-            }
-
-            return false;
+            //TODO: refer to AddOrUpdate for an idea of how you can implement this.
+            return true;
         }
 
     }

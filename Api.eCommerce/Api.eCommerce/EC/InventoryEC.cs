@@ -30,19 +30,14 @@ namespace Api.eCommerce.EC
 
         public Item? Delete(int id)
         {
-            // find the item in our in-memory list
+            
             var itemToDelete = Filebase.Current.Inventory.FirstOrDefault(i => i?.Id == id);
             if (itemToDelete != null)
             {
-                // delete the JSON file on disk
-                // (assuming your Delete method is on Filebase.Current and takes type + id)
-                Filebase.Current.Delete("product", id.ToString());
-
-                // remove it from the in-memory list
-                Filebase.Current.Inventory.Remove(itemToDelete);
+                
+                //Filebase.Current.Delete(itemToDelete);
             }
 
-            // return the deleted item (or null if not found)
             return itemToDelete;
         }
 
