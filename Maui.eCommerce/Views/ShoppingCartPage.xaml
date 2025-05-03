@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Maui.eCommerce.ViewModels"
+    x:Class="Maui.eCommerce.Views.ShoppingCartPage"
+    x:Name="CartPage"
+    Title="Shopping Cart">
+
+    <!-- 1. Set the ShoppingCartViewModel as BindingContext -->
+    <ContentPage.BindingContext>
+        <viewModels:ShoppingCartViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="10" Spacing="12">
+        <!-- Search / Refresh Row -->
+        <Grid ColumnDefinitions="4*,Auto,Auto" RowDefinitions="Auto">
+            <Entry
+        Grid.Column="0"
+        Text="{Binding Query}"
+        Placeholder="Search cart..." />
+            <Button
+        Grid.Column="1"
+        Text="Search"
+        Command="{Binding SearchCommand}" />
+            <Button
+        Grid.Column="2"
+        Text="Refresh"
+        Command="{Binding RefreshCommand}" />
+        </Grid>
+
+        <!-- Cart Items List -->
+        <ListView
+      ItemsSource="{Binding CartItems}"
+      HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid ColumnDefinitions="3*,Auto,Auto,Auto" Padding="8">
+                            <!-- Product Name -->
+                            <Label
+                Grid.Column="0"
+                Text="{Binding Product.Name}" />
+
+                            <!-- Quantity -->
+                            <Label
+                Grid.Column="1"
+                Text="{Binding Quantity}"
+                HorizontalOptions="Center" />
+
+                            <!-- Price -->
+                            <Label
+                Grid.Column="2"
+                Text="{Binding Price, StringFormat='{}{0:C}'}"
+                HorizontalOptions="Center" />
+
+                            <!-- Return (‘–’) -->
+                            <Button
+                Grid.Column="3"
+                Text="–"
+                Command="{Binding BindingContext.ReturnCommand, Source={x:Reference CartPage}}"
+                CommandParameter="{Binding Id}" />
+
+                            <!-- Purchase (‘+’) -->
+                            <Button
+                Grid.Column="4"
+                Text="+"
+                Command="{Binding BindingContext.PurchaseCommand, Source={x:Reference CartPage}}"
+                CommandParameter="{Binding Id}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- Checkout Button -->
+        <Button
+      Text="Checkout"
+      Command="{Binding CheckoutCommand}" />
+
+        <!-- Receipt Display (visible after checkout) -->
+        <StackLayout
+      IsVisible="{Binding Receipt, Converter={StaticResource NullToBoolConverter}}"
+      Padding="8"
+      BackgroundColor="#F0F0F0"
+      Spacing="6">
+            <Label Text="Receipt" FontAttributes="Bold" FontSize="Large" />
+            <Label Text="{Binding Receipt.Total, StringFormat='Total: {0:C}'}" />
+            <Label Text="{Binding Receipt.Timestamp, StringFormat='Date: {0:G}'}" />
+
+            <ListView ItemsSource="{Binding Receipt.Items}" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="3*,Auto">
+                            <Label Grid.Column="0" Text="{Binding Product.Name}" />
+                            <Label Grid.Column="1" Text="{Binding Quantity}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

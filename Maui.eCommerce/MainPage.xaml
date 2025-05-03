@@ -1,19 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Maui.eCommerce.MainPage">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Maui.eCommerce.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout Padding="10" Spacing="12">
             <Label
-                 Text="{Binding Display}"
-                 />
+        Text="{Binding Display}"
+        FontSize="24"
+        HorizontalOptions="Center" />
+
             <Button
-             Text="Inventory Management"
-                 Clicked="InventoryClicked"/>
+        Text="Inventory Management"
+        Clicked="InventoryClicked" />
+
             <Button
-             Text="Shop"/>
+        Text="Shop"
+        Clicked="ShopClicked" />
+
+
+            <Button
+        Text="Shopping Cart"
+        Clicked="ShoppingCartClicked" />
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>
